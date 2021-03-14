@@ -17,27 +17,6 @@ public class MeritBank
 	
 	
 	
-	public static double power(
-			double base,
-			int exponent
-	)
-	{
-		if( exponent == 0 )
-			return 1;
-		else
-			return base * power( base, ( exponent - 1 ) );
-	}
-
-	// i. Existing futureValue methods that used to call Math.pow() should now call
-//this method
-	public static double recursiveFutureValue(
-			double amount,
-			int years,
-			double interestRate
-	)
-	{
-		return amount * power( ( 1 + interestRate ), years );
-	}
 
 //i. If transaction does not violate any constraints, deposit/withdraw values
 //from the relevant BankAccounts and add the transaction to the relevant
@@ -70,15 +49,28 @@ public class MeritBank
 	{	
 		for (int i = 0; i < MeritBank.getAccountHolders().length; i++) {
 			if (MeritBank.getAccountHolders()[i] != null) {
+				
 				for (int j = 0; j < MeritBank.getAccountHolders()[i].getNumberOfCheckingAccounts(); j++) {
-					
-					
+					if(accountId == MeritBank.getAccountHolders()[i].getCheckingAccounts()[j].getAccountNumber()) {
+						return MeritBank.getAccountHolders()[i].getCheckingAccounts()[j];
+						}
+					}
+				
+			
+				for (int j = 0; j < MeritBank.getAccountHolders()[i].getNumberOfSavingsAccounts(); j++) {
+					if(accountId == MeritBank.getAccountHolders()[i].getSavingsAccounts()[j].getAccountNumber()) {
+						return MeritBank.getAccountHolders()[i].getSavingsAccounts()[j];
+					}
 				}
 				
+				for (int j = 0; j < MeritBank.getAccountHolders()[i].getNumberOfCDAccounts(); j++) {
+					if(accountId == MeritBank.getAccountHolders()[i].getCDAccounts()[j].getAccountNumber()) {
+						return MeritBank.getAccountHolders()[i].getCDAccounts()[j];
+					}
+				}
+
 				
-			}
-			
-				
+			}		
 		}
 		return null;
 
@@ -137,7 +129,7 @@ public class MeritBank
 					for( int t = 0; t < numOfCheckTrx; t++ )
 					{
 //						ac.getCheckingAccounts()[t].addTransaction( Transaction.readFromString( rd.readLine() ));
-						
+						rd.readLine();
 					}
 
 					numOfCheckAcc-- ;
@@ -148,6 +140,14 @@ public class MeritBank
 				while( numOfSaveAcc > 0 )
 				{
 					ac.addSavingsAccount( SavingsAccount.readFromString( rd.readLine() ) );
+//read savings account transactions:
+					int numOfSaveTrx = Integer.parseInt( rd.readLine() );
+					for( int t = 0; t < numOfSaveTrx; t++ )
+					{
+//						ac.getSavingsAccounts()[t].addTransaction( Transaction.readFromString( rd.readLine() ));
+						rd.readLine();
+					}					
+					
 					numOfSaveAcc-- ;
 				}
 //read CD accounts						
@@ -155,11 +155,28 @@ public class MeritBank
 				while( numOfCDAcc > 0 )
 				{
 					ac.addCDAccount( CDAccount.readFromString( rd.readLine() ) );
+//read CDaccount transactions:
+					int numOfCDTrx = Integer.parseInt( rd.readLine() );
+					for( int t = 0; t < numOfCDTrx; t++ )
+					{
+//						ac.getCDAccounts()[t].addTransaction( Transaction.readFromString( rd.readLine() ));
+						rd.readLine();
+					}
 					numOfCDAcc-- ;
 				}
 
 				numOfAccountHolders-- ;
 			} // Read Account Holders
+			
+//read fraud queue:			
+			int numOfFQ = Integer.parseInt( rd.readLine() );
+			while( numOfFQ > 0 ) {
+				
+				System.out.println(rd.readLine());
+				
+				numOfFQ--;
+			}
+			
 
 			rd.close();
 
@@ -362,5 +379,26 @@ public class MeritBank
 
 		return total;
 	}
+	
+	public static double power(
+			double base,
+			int exponent
+	)
+	{
+		if( exponent == 0 )
+			return 1;
+		else
+			return base * power( base, ( exponent - 1 ) );
+	}
+
+	public static double recursiveFutureValue(
+			double amount,
+			int years,
+			double interestRate
+	)
+	{
+		return amount * power( ( 1 + interestRate ), years );
+	}
+
 
 }

@@ -1,5 +1,7 @@
 package com.meritamerica.assignment4;
 
+import java.util.ArrayList;
+
 /* AccountHolder class for MeritAmericaBankApp.
  * Allows to create new account account.
  * Provides getter and setter methods to access account's properties.
@@ -12,25 +14,16 @@ package com.meritamerica.assignment4;
 //a. CheckingAccount addCheckingAccount(double openingBalance) throws
 //ExceedsCombinedBalanceLimitException
 
-//i. If combined balance limit is exceeded, throw
-//ExceedsCombinedBalanceLimitException
-
 //ii. Should also add a deposit transaction with the opening balance
 
 
 //b. CheckingAccount addCheckingAccount(CheckingAccount checkingAccount)
 //throws ExceedsCombinedBalanceLimitException
 
-//i. If combined balance limit is exceeded, throw
-//ExceedsCombinedBalanceLimitException
-
 //ii. Should also add a deposit transaction with the opening balance
 
 
 //c. SavingsAccount addSavingsAccount(double openingBalance) throws
-//ExceedsCombinedBalanceLimitException
-
-//i. If combined balance limit is exceeded, throw
 //ExceedsCombinedBalanceLimitException
 
 //ii. Should also add a deposit transaction with the opening balance
@@ -39,8 +32,6 @@ package com.meritamerica.assignment4;
 //d. SavingsAccount addSavingsAccount(SavingsAccount savingsAccount) throws
 //ExceedsCombinedBalanceLimitException
 
-//i. If combined balance limit is exceeded, throw
-//ExceedsCombinedBalanceLimitException
 //ii. Should also add a deposit transaction with the opening balance
 
 
@@ -66,6 +57,8 @@ public class AccountHolder implements Comparable< AccountHolder >
 	private SavingsAccount[] saveArray = new SavingsAccount[ 1 ];
 	private CDAccount[] cdArray = new CDAccount[ 1 ];
 	private final int MAXV = 250000;
+	
+
 
 	// Constructors
 
@@ -212,20 +205,21 @@ public class AccountHolder implements Comparable< AccountHolder >
 		return ssn;
 	}
 
-	protected CheckingAccount addCheckingAccount(
-			double openingBalance
-	)
+	protected CheckingAccount addCheckingAccount(double openingBalance) throws ExceedsCombinedBalanceLimitException
 	{
 
 		CheckingAccount checkingAccount = new CheckingAccount( openingBalance );
-
-		return addCheckingAccount( checkingAccount );
+		CheckingAccount ch = addCheckingAccount( checkingAccount );
+		if(ch == null) {
+			throw new ExceedsCombinedBalanceLimitException();
+		}
+		return ch;
 
 	}
 
 	protected CheckingAccount addCheckingAccount(
 			CheckingAccount checkingAccount
-	)
+	)throws ExceedsCombinedBalanceLimitException
 	{
 		if( getCheckingBalance() + getSavingsBalance() + checkingAccount.getBalance() < MAXV )
 		{
@@ -253,7 +247,7 @@ public class AccountHolder implements Comparable< AccountHolder >
 			return checkingAccount;
 		}
 		else
-			return null;
+			{throw new ExceedsCombinedBalanceLimitException();}
 	}
 
 	protected CheckingAccount[] getCheckingAccounts()
@@ -284,20 +278,20 @@ public class AccountHolder implements Comparable< AccountHolder >
 		return chBalance;
 	}
 
-	protected SavingsAccount addSavingsAccount(
-			double openingBalance
-	)
-	{
+	protected SavingsAccount addSavingsAccount(double openingBalance) throws ExceedsCombinedBalanceLimitException {
 
 		SavingsAccount savingsAccount = new SavingsAccount( openingBalance );
-
-		return addSavingsAccount( savingsAccount );
+		SavingsAccount sv = addSavingsAccount( savingsAccount );
+		if(sv == null) {
+			throw new ExceedsCombinedBalanceLimitException();
+		}
+		return sv;
 
 	}
 
-	protected SavingsAccount addSavingsAccount(
+	protected SavingsAccount addSavingsAccount (
 			SavingsAccount savingsAccount
-	)
+	)throws ExceedsCombinedBalanceLimitException
 	{
 		if( getCheckingBalance() + getSavingsBalance() + savingsAccount.getBalance() < MAXV )
 		{
@@ -326,7 +320,7 @@ public class AccountHolder implements Comparable< AccountHolder >
 			return savingsAccount;
 		}
 		else
-			return null;
+		{throw new ExceedsCombinedBalanceLimitException();}
 	}
 
 	protected SavingsAccount[] getSavingsAccounts()

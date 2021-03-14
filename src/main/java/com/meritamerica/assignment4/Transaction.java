@@ -99,11 +99,11 @@ public abstract class Transaction
 			//		-1,10,5000,01/01/2020
 			if( amount < 0 )
 			{
-//				for (int i = 0; i < this.)
+				
 				WithdrawTransaction t = new WithdrawTransaction(targetAccount, amount);
 				t.setTransactionDate(date);
 			}
-			else
+			else if ( amount > 0 )
 			{
 				DepositTransaction t = new DepositTransaction(targetAccount, amount);
 				t.setTransactionDate(date);
@@ -113,7 +113,7 @@ public abstract class Transaction
 		else if( sourceAccountAccNum > 0 )
 		{
 //			from 2, to 4,5000,01/05/2020
-					
+			
 			TransferTransaction t = new TransferTransaction(sourceAccount, targetAccount, amount);
 			t.setTransactionDate(date);
 			

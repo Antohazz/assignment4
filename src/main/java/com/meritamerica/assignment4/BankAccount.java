@@ -1,7 +1,9 @@
 package com.meritamerica.assignment4;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.ArrayBlockingQueue;
 
 //ASSIGNMENT 3
 //static BankAccount readFromString(String accountData) throws ParseException
@@ -21,7 +23,24 @@ public abstract class BankAccount
 	protected double balance;
 	protected CDOffering offering;
 	protected Date openDate;
+	protected List<Transaction> listOfTransactions = new ArrayList<>();
+	
+	
+	public void addTransaction(
+			Transaction transaction
+	)
+	{
+		listOfTransactions.add(transaction);
+	}
 
+	public List< Transaction > getTransactions()
+	{
+		return listOfTransactions;
+	}
+	
+	
+	
+	
 	public BankAccount()
 	{
 
@@ -141,14 +160,5 @@ public abstract class BankAccount
 		return futureBalance;
 	}
 
-	public void addTransaction(
-			Transaction transaction
-	)
-	{
-	}
 
-	public List< Transaction > getTransactions()
-	{
-		return null;
-	}
 }// class

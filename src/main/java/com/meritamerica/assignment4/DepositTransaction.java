@@ -11,7 +11,20 @@ public class DepositTransaction extends Transaction
 	
 	@Override public void process() throws NegativeAmountException, ExceedsAvailableBalanceException, ExceedsFraudSuspicionLimitException
 	{
-		// TODO Auto-generated method stub
+
+
+		{
+			if( amount > 0 )
+			{
+				balance += amount;
+				return true;
+			}
+			else
+			{
+				System.out.println( "Can't be zero or negative." );
+				return false;
+			}
+		}
 
 	}
 
