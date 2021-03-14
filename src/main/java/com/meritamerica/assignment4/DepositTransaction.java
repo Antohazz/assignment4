@@ -3,14 +3,13 @@ package com.meritamerica.assignment4;
 import java.util.Date;
 
 public class DepositTransaction extends Transaction {
-	private BankAccount targetAccount;
-	private double amount;
-	private Date date;
+
 
 	DepositTransaction(BankAccount targetAccount, double amount) {
-		this.targetAccount = targetAccount;
-		this.amount = amount;
-		this.date = new Date();
+
+		Transaction.targetAccount = targetAccount;
+		Transaction.amount = amount;
+		Transaction.date = new Date();
 	}
 
 	@Override

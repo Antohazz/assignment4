@@ -121,7 +121,7 @@ public abstract class BankAccount
 
 	public boolean withdraw(
 			double amount
-	)
+	) throws ExceedsFraudSuspicionLimitException
 	{
 		if( amount > 0 && amount <= balance )
 		{
@@ -135,9 +135,9 @@ public abstract class BankAccount
 		}
 	}
 
-	public boolean deposit(
+	public boolean deposit (
 			double amount
-	)
+	) throws ExceedsFraudSuspicionLimitException
 	{
 		if( amount > 0 )
 		{

@@ -3,21 +3,25 @@ package com.meritamerica.assignment4;
 import java.util.Date;
 
 public class WithdrawTransaction extends Transaction {
-	private BankAccount targetAccount;
-	private double amount;
-	private Date date;
+
 
 
 	WithdrawTransaction(BankAccount targetAccount, double amount) {
-		this.targetAccount = targetAccount;
-		this.amount = amount;
-		this.date = new Date();
+		Transaction.targetAccount = targetAccount;
+		Transaction.amount = amount;
+		Transaction.date = new Date();
 	}
 
 	@Override
 	public void process()
 			throws NegativeAmountException, ExceedsAvailableBalanceException, ExceedsFraudSuspicionLimitException {
 		
+
+//		if(targetAccount instanceof CDAccount) {
+//			System.out.println("\n\n\n OOOO! \n\n\n");
+//			throw new ExceedsFraudSuspicionLimitException();
+//		}
+			
 		if (amount > 1000) {
 			throw new ExceedsFraudSuspicionLimitException();}
 		

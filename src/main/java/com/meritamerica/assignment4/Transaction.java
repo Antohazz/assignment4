@@ -8,15 +8,15 @@ import java.util.Date;
 public abstract class Transaction
 {
 
-	private static Date date;
+	protected static Date date;
 
-	private static BankAccount targetAccount;
+	protected static BankAccount targetAccount;
 
-	private static BankAccount sourceAccount;
+	protected static BankAccount sourceAccount;
 
-	private static double amount;
+	protected static double amount;
 	
-	private static Transaction t;
+	protected static Transaction t;
 	
 	
 

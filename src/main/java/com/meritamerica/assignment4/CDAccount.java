@@ -37,16 +37,19 @@ public class CDAccount extends BankAccount{
 		return date;
 	}
 	
-	public boolean withdraw(double amount) {
-				
-			return false;
+	public boolean withdraw(double amount) throws ExceedsFraudSuspicionLimitException {
+
+		throw new ExceedsFraudSuspicionLimitException();
+	
+//			return false;
 			
 	}
 	
-	public boolean deposit (double amount) {
+	public boolean deposit (double amount)  throws ExceedsFraudSuspicionLimitException {
 
-			return false;
+		throw new ExceedsFraudSuspicionLimitException();
 		
+//		return false;
 	}
 	
 
@@ -84,10 +87,12 @@ public class CDAccount extends BankAccount{
 	}
 	
 	
-	public double futureValue() {
-		double futureBalance = MeritBank.recursiveFutureValue(getBalance(), getTerm(), getInterestRate());
-//		double futureBalance = getBalance() * Math.pow(1 + getInterestRate(), getTerm());
-		return futureBalance;
+	public double futureValue()  throws ExceedsFraudSuspicionLimitException  {
+		
+		 throw new ExceedsFraudSuspicionLimitException(); 
+		
+//		double futureBalance = MeritBank.recursiveFutureValue(getBalance(), getTerm(), getInterestRate());
+//		return futureBalance;
 	}
 	
 	
