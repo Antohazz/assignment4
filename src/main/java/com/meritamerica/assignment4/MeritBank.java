@@ -32,7 +32,13 @@ public class MeritBank
 			Transaction transaction
 	) throws NegativeAmountException, ExceedsAvailableBalanceException, ExceedsFraudSuspicionLimitException
 	{
-		return false;
+		try {
+		transaction.process();
+		
+		} catch (Exception e) {
+			throw e;
+		}
+		return true;
 
 	}
 

@@ -1,31 +1,36 @@
 package com.meritamerica.assignment4;
 
-public class DepositTransaction extends Transaction
-{
-	DepositTransaction(
-			BankAccount targetAccount, double amount
-	)
-	{
+import java.util.Date;
+
+public class DepositTransaction extends Transaction {
+	private BankAccount targetAccount;
+	private double amount;
+	private Date date;
+
+	DepositTransaction(BankAccount targetAccount, double amount) {
+		this.targetAccount = targetAccount;
+		this.amount = amount;
+		this.date = new Date();
 	}
 
-	
-	@Override public void process() throws NegativeAmountException, ExceedsAvailableBalanceException, ExceedsFraudSuspicionLimitException
-	{
+	@Override
+	public void process()
+			throws NegativeAmountException, ExceedsAvailableBalanceException, ExceedsFraudSuspicionLimitException {
+		if (amount > 1000) {
+		throw new ExceedsFraudSuspicionLimitException();}
+			if (amount > 0) {
+			
+
+				targetAccount.deposit(amount);
 
 
-		{
-			if( amount > 0 )
-			{
-				balance += amount;
-				return true;
-			}
-			else
-			{
-				System.out.println( "Can't be zero or negative." );
-				return false;
-			}
-		}
+				
+				
+			} else 
+				throw new NegativeAmountException();
+			
+		
 
-	}
+	}//process()
 
-}
+}//class
