@@ -12,7 +12,7 @@ import java.util.Arrays;
 public class MeritBank
 {
 	public static final double FRAUD_LIMIT = 1000;
-	
+
 	public static long accountNumber = 1;
 	public static AccountHolder[] accountHolders = new AccountHolder[ 1 ];
 	public static CDOffering[] cdOfferings = new CDOffering[ 0 ];
@@ -64,10 +64,9 @@ public class MeritBank
 		return null;
 	}
 
-//i. Return null if account not found
 	public static BankAccount getBankAccount(
 			long accountId
-	)
+	) // i. Return null if account not found
 	{
 		return null;
 	}
