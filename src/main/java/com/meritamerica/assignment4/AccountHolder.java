@@ -2,45 +2,13 @@ package com.meritamerica.assignment4;
 
 import java.util.ArrayList;
 
+
+
 /* AccountHolder class for MeritAmericaBankApp.
  * Allows to create new account account.
  * Provides getter and setter methods to access account's properties.
  */
 
-
-//Amend the following methods:
-//1. AccountHolder:
-
-//a. CheckingAccount addCheckingAccount(double openingBalance) throws
-//ExceedsCombinedBalanceLimitException
-
-//ii. Should also add a deposit transaction with the opening balance
-
-
-//b. CheckingAccount addCheckingAccount(CheckingAccount checkingAccount)
-//throws ExceedsCombinedBalanceLimitException
-
-//ii. Should also add a deposit transaction with the opening balance
-
-
-//c. SavingsAccount addSavingsAccount(double openingBalance) throws
-//ExceedsCombinedBalanceLimitException
-
-//ii. Should also add a deposit transaction with the opening balance
-
-
-//d. SavingsAccount addSavingsAccount(SavingsAccount savingsAccount) throws
-//ExceedsCombinedBalanceLimitException
-
-//ii. Should also add a deposit transaction with the opening balance
-
-
-//e. CDAccount addCDAccount(CDOffering offering, double openingBalance)
-//i. Should also add a deposit transaction with the opening balance
-
-
-//f. CDAccount addCDAccount(CDAccount cdAccount)
-//i. Should also add a deposit transaction with the opening balance
 
 
 
@@ -439,6 +407,12 @@ public class AccountHolder implements Comparable< AccountHolder >
 			if( getCheckingAccounts()[ i ] != null )
 			{
 				accountInfo += getCheckingAccounts()[ i ].toString() + "\n";
+				
+				int s = getCheckingAccounts()[ i ].getTransStr().size();
+				accountInfo += s + "\n";
+				for(int h = 0; h < s; h++){
+				accountInfo += getCheckingAccounts()[ i ].getTransStr().get(h) + "\n";}
+				
 			}
 		}
 
@@ -457,6 +431,12 @@ public class AccountHolder implements Comparable< AccountHolder >
 			if( getSavingsAccounts()[ i ] != null )
 			{
 				accountInfo += getSavingsAccounts()[ i ].toString() + "\n";
+				
+				int s = getSavingsAccounts()[ i ].getTransStr().size();
+				accountInfo += s + "\n";
+				for(int h = 0; h < s; h++){
+				accountInfo += getSavingsAccounts()[ i ].getTransStr().get(h) + "\n";}
+				
 			}
 		}
 
@@ -475,6 +455,12 @@ public class AccountHolder implements Comparable< AccountHolder >
 			if( getCDAccounts()[ i ] != null )
 			{
 				accountInfo += getCDAccounts()[ i ].toString() + "\n";
+				
+				int s = getCDAccounts()[ i ].getTransStr().size();
+				accountInfo += s + "\n";
+				for(int h = 0; h < s; h++){
+				accountInfo += getCDAccounts()[ i ].getTransStr().get(h) + "\n";}
+				
 			}
 		}
 

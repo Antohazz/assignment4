@@ -16,149 +16,122 @@ import java.util.concurrent.ArrayBlockingQueue;
 //a. public void addTransaction(Transaction transaction)
 //b. public List<Transaction> getTransactions()
 
-public abstract class BankAccount
-{
+public abstract class BankAccount {
 	protected double interestRate;
 	protected long accountNumber;
 	protected double balance;
 	protected CDOffering offering;
 	protected Date openDate;
 	protected List<Transaction> listOfTransactions = new ArrayList<>();
+	protected List<String> listOfTransStr = new ArrayList<>();
 	
 	
-	public void addTransaction(
-			Transaction transaction
-	)
-	{
+	public void addTransStr(String transaction) {
+		listOfTransStr.add(transaction);
+	}
+
+	public List<String> getTransStr() {
+		return listOfTransStr;
+	}
+	
+	
+	public void addTransaction(Transaction transaction) {
 		listOfTransactions.add(transaction);
 	}
 
-	public List< Transaction > getTransactions()
-	{
+	public List<Transaction> getTransactions() {
 		return listOfTransactions;
 	}
-	
-	
-	
-	
-	public BankAccount()
-	{
+
+	public BankAccount() {
 
 	}
 
-	public BankAccount(
-			long accountNumber
-	)
-	{
+	public BankAccount(long accountNumber) {
 		this.accountNumber = accountNumber;
 	}
 
-	public BankAccount(
-			double balance
-	)
-	{
+	public BankAccount(double balance) {
 		this.balance = balance;
 		this.accountNumber = MeritBank.getNextAccountNumber();
+		Transaction init = new DepositTransaction(this, balance);
+		addTransaction(init);
 	}
 
-	public BankAccount(
-			CDOffering offering, double balance
-	)
-	{
+	public BankAccount(CDOffering offering, double balance) {
 		this.offering = offering;
 		this.balance = balance;
 		this.accountNumber = MeritBank.getNextAccountNumber();
+		Transaction init = new DepositTransaction(this, balance);
+		addTransaction(init);
 	}
 
-	public BankAccount(
-			double balance, double interestRate
-	)
-	{
+	public BankAccount(double balance, double interestRate) {
 		this.balance = balance;
 		this.interestRate = interestRate;
 		this.accountNumber = MeritBank.getNextAccountNumber();
+		Transaction init = new DepositTransaction(this, balance);
+		addTransaction(init);
 	}
 
-	public BankAccount(
-			long accountNumber, double balance, double interestRate
-	)
-	{
+	public BankAccount(long accountNumber, double balance, double interestRate) {
 		this.accountNumber = accountNumber;
 		this.balance = balance;
 		this.interestRate = interestRate;
 		this.accountNumber = accountNumber;
+		Transaction init = new DepositTransaction(this, balance);
+		addTransaction(init);
 	}
 
-	public BankAccount(
-			double balance, double interestRate, Date accountOpenedOn
-	)
-	{
+	public BankAccount(double balance, double interestRate, Date accountOpenedOn) {
 		this.accountNumber = MeritBank.getNextAccountNumber();
 		this.balance = balance;
 		this.interestRate = interestRate;
 		this.openDate = accountOpenedOn;
+		Transaction init = new DepositTransaction(this, balance);
+		addTransaction(init);
 	}
 
-	public long getAccountNumber()
-	{
+	public long getAccountNumber() {
 		return accountNumber;
 	}
 
-	public double getBalance()
-	{
+	public double getBalance() {
 		return balance;
 	}
 
-	public double getInterestRate()
-	{
+	public double getInterestRate() {
 		return interestRate;
 	}
 
-	public Date getOpenedOn()
-	{
+	public Date getOpenedOn() {
 		return openDate;
 	}
 
-	public boolean withdraw(
-			double amount
-	) throws ExceedsFraudSuspicionLimitException
-	{
-		if( amount > 0 && amount <= balance )
-		{
+	public boolean withdraw(double amount) throws ExceedsFraudSuspicionLimitException {
+		if (amount > 0 && amount <= balance) {
 			balance -= amount;
 			return true;
-		}
-		else
-		{
-			System.out.println( "Incorrect amount or exceeding balance." );
+		} else {
+			System.out.println("Incorrect amount or exceeding balance.");
 			return false;
 		}
 	}
 
-	public boolean deposit (
-			double amount
-	) throws ExceedsFraudSuspicionLimitException
-	{
-		if( amount > 0 )
-		{
+	public boolean deposit(double amount) throws ExceedsFraudSuspicionLimitException {
+		if (amount > 0) {
 			balance += amount;
 			return true;
-		}
-		else
-		{
-			System.out.println( "Can't be zero or negative." );
+		} else {
+			System.out.println("Can't be zero or negative.");
 			return false;
 		}
 	}
 
-	public double futureValue(
-			int years
-	)
-	{
+	public double futureValue(int years) {
 		double futureBalance = MeritBank.recursiveFutureValue(getBalance(), years, getInterestRate());
 //		double futureBalance = getBalance() * Math.pow( 1 + getInterestRate(), years );
 		return futureBalance;
 	}
-
 
 }// class

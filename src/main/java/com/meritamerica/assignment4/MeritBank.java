@@ -14,7 +14,7 @@ public class MeritBank
 	public static AccountHolder[] accountHolders = new AccountHolder[ 1 ];
 	public static CDOffering[] cdOfferings = new CDOffering[ 0 ];
 	public static CDOffering offering;
-	
+	public static FraudQueue fq;
 	
 	
 
@@ -127,58 +127,60 @@ public class MeritBank
 
 //read checking accounts
 				int numOfCheckAcc = Integer.parseInt( rd.readLine() );
-				while( numOfCheckAcc > 0 )
+				for (int i = 0; i < numOfCheckAcc; i++)
 				{
 					ac.addCheckingAccount( CheckingAccount.readFromString( rd.readLine() ) );
 //read checking account transactions:
 					int numOfCheckTrx = Integer.parseInt( rd.readLine() );
 					for( int t = 0; t < numOfCheckTrx; t++ )
 					{
-//						ac.getCheckingAccounts()[t].addTransaction( Transaction.readFromString( rd.readLine() ));
-						rd.readLine();
+//						ac.getCheckingAccounts()[i].addTransaction( Transaction.readFromString( rd.readLine() ));
+						ac.getCheckingAccounts()[i].getTransStr().add(rd.readLine()); // stored in ArrayList
 					}
 
-					numOfCheckAcc-- ;
+					
 				}
 
 //read savings accounts	
 				int numOfSaveAcc = Integer.parseInt( rd.readLine() );
-				while( numOfSaveAcc > 0 )
+				for (int i = 0; i < numOfSaveAcc; i++)
 				{
 					ac.addSavingsAccount( SavingsAccount.readFromString( rd.readLine() ) );
 //read savings account transactions:
 					int numOfSaveTrx = Integer.parseInt( rd.readLine() );
 					for( int t = 0; t < numOfSaveTrx; t++ )
 					{
-//						ac.getSavingsAccounts()[t].addTransaction( Transaction.readFromString( rd.readLine() ));
-						rd.readLine();
+//						ac.getSavingsAccounts()[i].addTransaction( Transaction.readFromString( rd.readLine() ));
+						ac.getSavingsAccounts()[i].getTransStr().add(rd.readLine()); //stored in ArrayList
 					}					
 					
-					numOfSaveAcc-- ;
+					
 				}
 //read CD accounts						
 				int numOfCDAcc = Integer.parseInt( rd.readLine() );
-				while( numOfCDAcc > 0 )
+				for (int i = 0; i < numOfCDAcc; i++)
 				{
 					ac.addCDAccount( CDAccount.readFromString( rd.readLine() ) );
 //read CDaccount transactions:
 					int numOfCDTrx = Integer.parseInt( rd.readLine() );
 					for( int t = 0; t < numOfCDTrx; t++ )
 					{
-//						ac.getCDAccounts()[t].addTransaction( Transaction.readFromString( rd.readLine() ));
-						rd.readLine();
+//						ac.getCDAccounts()[i].addTransaction( Transaction.readFromString( rd.readLine() ));
+						ac.getCDAccounts()[i].getTransStr().add(rd.readLine()); //stored in ArrayList
 					}
-					numOfCDAcc-- ;
+					
 				}
 
 				numOfAccountHolders-- ;
 			} // Read Account Holders
 			
-//read fraud queue:			
+//read fraud queue:		
+			fq = new FraudQueue();
 			int numOfFQ = Integer.parseInt( rd.readLine() );
 			while( numOfFQ > 0 ) {
 				
-				System.out.println(rd.readLine());
+//				System.out.println(rd.readLine());
+				fq.addTransStr(rd.readLine());//Could be stored in ArrayList
 				
 				numOfFQ--;
 			}
@@ -227,7 +229,12 @@ public class MeritBank
 				outp += accountHolders[ i ].toStringForFile();
 			}
 		}
-
+		
+		int s = fq.getTransStr().size();
+		outp += s + "\n";
+		for(int i = 0; i < s; i++)
+		outp += fq.getTransStr().get(i)+ "\n";
+		
 		System.out.println( outp );
 		PrintWriter out;
 		try
