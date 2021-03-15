@@ -17,13 +17,62 @@ import java.util.List;
 
 public abstract class BankAccount
 {
-	protected double interestRate;
-	protected long accountNumber;
-	protected double balance;
-	protected CDOffering offering;
-	protected Date openDate;
+	private double interestRate;
+
+	private long accountNumber;
+
+	private double balance;
+
+	private CDOffering offering;
+
+	private Date openingDate;
 
 	private ArrayList< String > transactionStrings = new ArrayList<>();
+
+	public void setInterestRate(
+			double interestRate
+	)
+	{
+		this.interestRate = interestRate;
+	}
+
+	public Date getOpeningDate()
+	{
+		return openingDate;
+	}
+
+	public void setOpeningDate(
+			Date openDate
+	)
+	{
+		this.openingDate = openDate;
+	}
+
+	public void setAccountNumber(
+			long accountNumber
+	)
+	{
+		this.accountNumber = accountNumber;
+	}
+
+	public void setBalance(
+			double balance
+	)
+	{
+		this.balance = balance;
+	}
+
+	public CDOffering getOffering()
+	{
+		return offering;
+	}
+
+	public void setOffering(
+			CDOffering offering
+	)
+	{
+		this.offering = offering;
+	}
 
 	public void transactionStringAdd(
 			String s
@@ -87,7 +136,7 @@ public abstract class BankAccount
 		this.accountNumber = MeritBank.getNextAccountNumber();
 		this.balance = balance;
 		this.interestRate = interestRate;
-		this.openDate = accountOpenedOn;
+		this.openingDate = accountOpenedOn;
 	}
 
 	public long getAccountNumber()
@@ -105,18 +154,14 @@ public abstract class BankAccount
 		return interestRate;
 	}
 
-	public Date getOpenedOn()
-	{
-		return openDate;
-	}
-
 	public boolean withdraw(
 			double amount
 	)
 	{
-		if( amount > 0 && amount <= balance )
+		double balanceAfterWithdrawal = balance - amount;
+		if( amount > 0 && balanceAfterWithdrawal > 0 )
 		{
-			balance -= amount;
+			balance = balanceAfterWithdrawal;
 			return true;
 		}
 		else

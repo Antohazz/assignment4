@@ -5,37 +5,38 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import javax.annotation.Generated;
-
 /* Checking account class.
 
  */
 
 public class CheckingAccount extends BankAccount
 {
-	private double interestRate;
-
 	// Sets opening balance
 	CheckingAccount(
 			double openingBalance
 	)
 	{
-		super.balance = openingBalance;
+		this.setBalance( openingBalance );
 	}
 
 	CheckingAccount(
 			long accNum, double balance, double interestRate, Date openDate
 	)
 	{
-		super.balance = balance;
-		this.interestRate = interestRate;
-		super.openDate = openDate;
-		super.accountNumber = accNum;
+		this.setInterestRate( interestRate );
+		this.setOpeningDate( openDate );
+		this.setBalance( balance );
+		this.setAccountNumber( accNum );
+	}
+
+	public Date getOpenedOn()
+	{
+		return this.getOpeningDate();
 	}
 
 	public double getInterestRate()
 	{
-		return interestRate;
+		return this.getInterestRate();
 	}
 
 	public static CheckingAccount readFromString(
@@ -76,14 +77,7 @@ public class CheckingAccount extends BankAccount
 	{
 		DateFormat df = new SimpleDateFormat( "dd/MM/yyyy" );
 		String checkAccInfo = getAccountNumber() + "," + getBalance() + "," + String.format( "%.4f", getInterestRate() ) + ","
-				+ df.format( getOpenedOn() );
+				+ df.format( this.getOpeningDate() );
 		return checkAccInfo;
 	}
-
-//	@Override public void process() throws NegativeAmountException, ExceedsAvailableBalanceException, ExceedsFraudSuspicionLimitException
-//	{
-//		// TODO Auto-generated method stub
-//		
-//	}
-
 }

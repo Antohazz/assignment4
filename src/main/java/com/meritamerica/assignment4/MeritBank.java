@@ -11,6 +11,8 @@ import java.util.Arrays;
 
 public class MeritBank
 {
+	public static final double FRAUD_LIMIT = 1000;
+	
 	public static long accountNumber = 1;
 	public static AccountHolder[] accountHolders = new AccountHolder[ 1 ];
 	public static CDOffering[] cdOfferings = new CDOffering[ 0 ];
@@ -18,7 +20,7 @@ public class MeritBank
 
 	private static ArrayList< String > fraudQueue = new ArrayList<>();
 
-	public static double power(
+	public static double recursivePower(
 			double base,
 			int exponent
 	)
@@ -26,7 +28,7 @@ public class MeritBank
 		if( exponent == 0 )
 			return 1;
 		else
-			return base * power( base, ( exponent - 1 ) );
+			return base * recursivePower( base, ( exponent - 1 ) );
 	}
 
 	// i. Existing futureValue methods that used to call Math.pow() should now call
@@ -37,7 +39,7 @@ public class MeritBank
 			double interestRate
 	)
 	{
-		return amount * power( ( 1 + interestRate ), years );
+		return amount * recursivePower( ( 1 + interestRate ), years );
 	}
 
 //i. If transaction does not violate any constraints, deposit/withdraw values
@@ -55,13 +57,11 @@ public class MeritBank
 	) throws NegativeAmountException, ExceedsAvailableBalanceException, ExceedsFraudSuspicionLimitException
 	{
 		return false;
-
 	}
 
 	public static FraudQueue getFraudQueue()
 	{
 		return null;
-
 	}
 
 //i. Return null if account not found
@@ -69,20 +69,7 @@ public class MeritBank
 			long accountId
 	)
 	{
-		for( int i = 0; i < MeritBank.getAccountHolders().length; i++ )
-		{
-			if( MeritBank.getAccountHolders()[ i ] != null )
-			{
-				for( int j = 0; j < MeritBank.getAccountHolders()[ i ].getNumberOfCheckingAccounts(); j++ )
-				{
-
-				}
-
-			}
-
-		}
 		return null;
-
 	}
 
 //AMEND
@@ -214,25 +201,16 @@ public class MeritBank
 			String fileName
 	)
 	{
-
 		String outp = getNextAccountNumber() + "\n";
 
 		for( int i = 0; i < cdOfferings.length; i++ )
-		{
 			if( cdOfferings[ i ] != null )
-			{
 				outp += cdOfferings[ i ].toString();
-			}
-		}
 
 		outp += accountHolders.length + "\n";
 		for( int i = 0; i < accountHolders.length; i++ )
-		{
 			if( accountHolders[ i ] != null )
-			{
 				outp += accountHolders[ i ].toStringForFile();
-			}
-		}
 
 		System.out.println( outp );
 		PrintWriter out;
@@ -248,7 +226,6 @@ public class MeritBank
 			e.printStackTrace();
 			return false;
 		}
-
 	}
 
 	static AccountHolder[] sortAccountHolders()
@@ -280,9 +257,7 @@ public class MeritBank
 			AccountHolder accountHolder
 	)
 	{
-
 		for( int i = 0; i < accountHolders.length; i++ )
-		{
 			if( accountHolders[ i ] == null )
 			{
 				accountHolders[ i ] = accountHolder;
@@ -292,16 +267,13 @@ public class MeritBank
 				{
 					AccountHolder[] temp = new AccountHolder[ accountHolders.length * 2 ];
 					for( int j = 0; j < accountHolders.length; j++ )
-					{
 						temp[ j ] = accountHolders[ j ];
-					}
+
 					accountHolders = temp;
 				}
 
 				break;
 			}
-		}
-
 	}
 
 	public static AccountHolder[] getAccountHolders()
@@ -328,9 +300,7 @@ public class MeritBank
 				{
 					val = (double)recursiveFutureValue( depositAmount, cdOfferings[ i ].getTerm(), cdOfferings[ i ].getInterestRate() );
 					j = i;
-
 				}
-
 			}
 			return cdOfferings[ j ];
 		}
@@ -355,7 +325,6 @@ public class MeritBank
 					j = i;
 					k = j;
 				}
-
 			}
 
 			return cdOfferings[ k ];
@@ -366,7 +335,6 @@ public class MeritBank
 
 	public static void clearCDOfferings()
 	{
-
 		cdOfferings = null;
 	}
 
@@ -374,7 +342,6 @@ public class MeritBank
 			CDOffering[] offerings
 	)
 	{
-
 		cdOfferings = offerings;
 	}
 
@@ -391,5 +358,4 @@ public class MeritBank
 
 		return total;
 	}
-
 }

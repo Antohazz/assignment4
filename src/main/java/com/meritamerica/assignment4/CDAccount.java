@@ -1,104 +1,133 @@
 package com.meritamerica.assignment4;
 
-
-
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class CDAccount extends BankAccount{
-	
-	
-	public CDAccount(CDOffering offering, double balance) {
-		super.offering = offering;
-		super.balance = balance;
-		super.accountNumber = MeritBank.getNextAccountNumber();
-	}
-	
-	
-	public CDAccount(long accNum, double balance, CDOffering offering, Date date) {
-		super.balance = balance;
-		super.offering = offering;
-		super.openDate = date;
-		super.accountNumber = accNum;
-		
-	}
-	
-	public int getTerm() {
-		return offering.getTerm();
-	}
-	public double getInterestRate() {
-		return offering.getInterestRate();
+public class CDAccount extends BankAccount
+{
+	private int term;
+
+	public CDAccount(
+			CDOffering offering, double balance
+	) throws ExceedsFraudSuspicionLimitException
+	{
+
+		this.setOffering( offering );
+		this.setBalance( balance );
+		this.setTerm( offering.getTerm() );
+		this.setAccountNumber( MeritBank.getNextAccountNumber() );
+		if( balance > MeritBank.FRAUD_LIMIT )
+			throw new ExceedsFraudSuspicionLimitException();
 	}
 
-	public Date getStartDate(){
-		Date date = new Date();
-		return date;
+	public CDAccount(
+			long accNum, double balance, CDOffering offering, Date date
+	) throws ExceedsFraudSuspicionLimitException
+	{
+		this.setOffering( offering );
+		this.setBalance( balance );
+		this.setTerm( offering.getTerm() );
+		this.setAccountNumber( accNum );
+		this.setOpeningDate( date );
+		if( balance > MeritBank.FRAUD_LIMIT )
+			throw new ExceedsFraudSuspicionLimitException();
 	}
-	
-	public boolean withdraw(double amount) {
 
-			return false;
-			
+	public void setTerm(
+			int term
+	)
+	{
+		this.term = term;
 	}
-	
-	public boolean deposit (double amount) {
 
-			return false;
-		
+	public int getTerm()
+	{
+		return term;
 	}
-	
 
-	public static CDAccount readFromString(String accountData) throws NumberFormatException{
+	public double getInterestRate()
+	{
+		return this.getOffering().getInterestRate();
+	}
 
-		try {
-		int firstCh = 0;
-		int lastCh = accountData.indexOf(",");
-		long accNum = Integer.parseInt(accountData.substring(firstCh, lastCh));
-		
-		firstCh = lastCh+1;
-		lastCh = accountData.indexOf(",", firstCh);
-		double balance = Double.parseDouble(accountData.substring(firstCh, lastCh));
-		
-		firstCh = lastCh+1;
-		lastCh = accountData.indexOf(",", firstCh);
-		double iRate = Double.parseDouble(accountData.substring(firstCh, lastCh));
-		
-		firstCh = lastCh+1;
-		lastCh = accountData.indexOf(",", firstCh);
-		DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
-		Date openDate = df.parse(accountData.substring(firstCh, lastCh));
-		
-		firstCh = lastCh+1;
-		int term = Integer.parseInt(accountData.substring(firstCh));
-		
-		CDOffering of = new CDOffering(term, iRate);
-		
-		CDAccount cdAccount = new CDAccount(accNum, balance, of, openDate);
-		
-		return cdAccount;
-	}catch(Exception e){
-		throw new NumberFormatException();
+	public Date getStartDate()
+	{
+//		Date date = new Date();
+//		return date;
+		return this.getOpeningDate();
 	}
+
+	public Date getOpenedOn()
+	{
+		return this.getOpeningDate();
 	}
-	
-	
-	public double futureValue() {
-		double futureBalance = MeritBank.recursiveFutureValue(getBalance(), getTerm(), getInterestRate());
-//		double futureBalance = getBalance() * Math.pow(1 + getInterestRate(), getTerm());
-		return futureBalance;
+
+	public boolean withdraw(
+			double amount
+	)
+	{
+		return false;
 	}
-	
-	
-	
+
+	public boolean deposit(
+			double amount
+	)
+	{
+		return false;
+	}
+
+	public static CDAccount readFromString(
+			String accountData
+	) throws NumberFormatException
+	{
+		try
+		{
+			int firstCh = 0;
+			int lastCh = accountData.indexOf( "," );
+			long accNum = Integer.parseInt( accountData.substring( firstCh, lastCh ) );
+
+			firstCh = lastCh + 1;
+			lastCh = accountData.indexOf( ",", firstCh );
+			double balance = Double.parseDouble( accountData.substring( firstCh, lastCh ) );
+
+			firstCh = lastCh + 1;
+			lastCh = accountData.indexOf( ",", firstCh );
+			double iRate = Double.parseDouble( accountData.substring( firstCh, lastCh ) );
+
+			firstCh = lastCh + 1;
+			lastCh = accountData.indexOf( ",", firstCh );
+			DateFormat df = new SimpleDateFormat( "dd/MM/yyyy" );
+			Date openDate = df.parse( accountData.substring( firstCh, lastCh ) );
+
+			firstCh = lastCh + 1;
+			byte term = Byte.parseByte( accountData.substring( firstCh ) );
+
+			// CDOffering of = new CDOffering( term, iRate );
+
+			// CDAccount cdAccount = new CDAccount( accNum, balance, new CDOffering( term,
+			// iRate ), openDate );
+
+			return new CDAccount( accNum, balance, new CDOffering( term, iRate ), openDate );
+		}
+		catch( Exception e )
+		{
+			throw new NumberFormatException();
+		}
+	}
+
+	public double futureValue()
+	{
+		return MeritBank.recursiveFutureValue( getBalance(), getTerm(), getInterestRate() );
+	}
+
 //	// Outputs account info
-	public String toString() {
-		DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
-		String cdAccInfo = getAccountNumber() + "," + getBalance() + "," + getInterestRate() + "," + df.format(getOpenedOn()) + "," + getTerm();
-			
+	public String toString()
+	{
+		DateFormat df = new SimpleDateFormat( "dd/MM/yyyy" );
+		String cdAccInfo = getAccountNumber() + "," + getBalance() + "," + getInterestRate() + "," + df.format( this.getStartDate() ) + ","
+				+ getTerm();
+
 		return cdAccInfo;
 	}
-	
 }
-

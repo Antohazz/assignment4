@@ -5,7 +5,6 @@ package com.meritamerica.assignment4;
  * Provides getter and setter methods to access account's properties.
  */
 
-
 //Amend the following methods:
 //1. AccountHolder:
 
@@ -17,7 +16,6 @@ package com.meritamerica.assignment4;
 
 //ii. Should also add a deposit transaction with the opening balance
 
-
 //b. CheckingAccount addCheckingAccount(CheckingAccount checkingAccount)
 //throws ExceedsCombinedBalanceLimitException
 
@@ -25,7 +23,6 @@ package com.meritamerica.assignment4;
 //ExceedsCombinedBalanceLimitException
 
 //ii. Should also add a deposit transaction with the opening balance
-
 
 //c. SavingsAccount addSavingsAccount(double openingBalance) throws
 //ExceedsCombinedBalanceLimitException
@@ -35,7 +32,6 @@ package com.meritamerica.assignment4;
 
 //ii. Should also add a deposit transaction with the opening balance
 
-
 //d. SavingsAccount addSavingsAccount(SavingsAccount savingsAccount) throws
 //ExceedsCombinedBalanceLimitException
 
@@ -43,17 +39,11 @@ package com.meritamerica.assignment4;
 //ExceedsCombinedBalanceLimitException
 //ii. Should also add a deposit transaction with the opening balance
 
-
 //e. CDAccount addCDAccount(CDOffering offering, double openingBalance)
 //i. Should also add a deposit transaction with the opening balance
 
-
 //f. CDAccount addCDAccount(CDAccount cdAccount)
 //i. Should also add a deposit transaction with the opening balance
-
-
-
-
 
 public class AccountHolder implements Comparable< AccountHolder >
 {
@@ -78,7 +68,6 @@ public class AccountHolder implements Comparable< AccountHolder >
 			String firstName, String middleName, String lastName, String ssn
 	)
 	{
-
 		this.firstName = firstName;
 		this.middleName = middleName;
 		this.lastName = lastName;
@@ -90,14 +79,12 @@ public class AccountHolder implements Comparable< AccountHolder >
 			double savingsAccountOpeningBalance
 	)
 	{
-
 		this.firstName = firstName;
 		this.middleName = middleName;
 		this.lastName = lastName;
 		this.ssn = ssn;
 		new CheckingAccount( checkingAccountOpeningBalance );
 		new SavingsAccount( savingsAccountOpeningBalance );
-
 	}
 
 //READ ACCOUNT HOLDER INFO from FILE
@@ -360,10 +347,9 @@ public class AccountHolder implements Comparable< AccountHolder >
 	protected CDAccount addCDAccount(
 			CDOffering offering,
 			double openingBalance
-	)
+	) throws ExceedsFraudSuspicionLimitException
 	{
-		CDAccount cdAccount = new CDAccount( offering, openingBalance );
-		return addCDAccount( cdAccount );
+		return new CDAccount( offering, openingBalance );
 	}
 
 	protected CDAccount addCDAccount(
