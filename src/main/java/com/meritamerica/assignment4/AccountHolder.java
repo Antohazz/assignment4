@@ -47,7 +47,6 @@ package com.meritamerica.assignment4;
 
 public class AccountHolder implements Comparable< AccountHolder >
 {
-
 	private String firstName;
 	private String middleName;
 	private String lastName;
@@ -328,6 +327,7 @@ public class AccountHolder implements Comparable< AccountHolder >
 		{
 			i++ ;
 		}
+		
 		return i;
 	}
 
@@ -393,6 +393,7 @@ public class AccountHolder implements Comparable< AccountHolder >
 		{
 			i++ ;
 		}
+
 		return i;
 	}
 
@@ -406,6 +407,7 @@ public class AccountHolder implements Comparable< AccountHolder >
 			else
 				break;
 		}
+
 		return cdBalance;
 	}
 
@@ -416,7 +418,6 @@ public class AccountHolder implements Comparable< AccountHolder >
 
 	public String toStringForFile()
 	{
-
 		int n = 0;
 		for( int i = 0; i < getCheckingAccounts().length; i++ )
 		{
@@ -482,5 +483,4 @@ public class AccountHolder implements Comparable< AccountHolder >
 
 		return accountInfo;
 	}
-
 }

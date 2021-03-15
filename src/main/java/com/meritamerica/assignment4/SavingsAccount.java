@@ -5,12 +5,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-//SavingsAccount
-
 public class SavingsAccount extends BankAccount
 {
-
-	// Sets opening balance
 	SavingsAccount(
 			double openingBalance
 	)
@@ -43,7 +39,6 @@ public class SavingsAccount extends BankAccount
 			String accountData
 	) throws ParseException
 	{
-
 		try
 		{
 			int firstCh = 0;
@@ -70,7 +65,6 @@ public class SavingsAccount extends BankAccount
 		{
 			throw new NumberFormatException();
 		}
-
 	}
 
 //	// Outputs account info
@@ -80,5 +74,4 @@ public class SavingsAccount extends BankAccount
 		String saveAccInfo = getAccountNumber() + "," + getBalance() + "," + getInterestRate() + "," + df.format( this.getOpeningDate() );
 		return saveAccInfo;
 	}
-
 }

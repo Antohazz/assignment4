@@ -5,10 +5,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-/* Checking account class.
-
- */
-
 public class CheckingAccount extends BankAccount
 {
 	// Sets opening balance

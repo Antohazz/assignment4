@@ -11,7 +11,5 @@ public class TransferTransaction extends Transaction
 	@Override public void process() throws NegativeAmountException, ExceedsAvailableBalanceException, ExceedsFraudSuspicionLimitException
 	{
 		// TODO Auto-generated method stub
-		
 	}
-
 }

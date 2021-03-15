@@ -29,6 +29,59 @@ public abstract class BankAccount
 
 	private ArrayList< String > transactionStrings = new ArrayList<>();
 
+	public BankAccount()
+	{
+		setAccountNumber( MeritBank.getNextAccountNumber() );
+	}
+
+	public BankAccount(
+			long accountNumber
+	)
+	{
+		setAccountNumber( accountNumber );
+	}
+
+	public BankAccount(
+			double balance
+	)
+	{
+		setBalance( balance );
+		setAccountNumber( MeritBank.getNextAccountNumber() );
+	}
+
+	public BankAccount(
+			CDOffering offering, double balance
+	)
+	{
+		this( balance );
+		setOffering( offering );
+	}
+
+	public BankAccount(
+			double balance, double interestRate
+	)
+	{
+		this( balance );
+		setInterestRate( interestRate );
+	}
+
+	public BankAccount(
+			long accountNumber, double balance, double interestRate
+	)
+	{
+		this( balance, interestRate );
+		setAccountNumber( accountNumber );
+	}
+
+	public BankAccount(
+			double balance, double interestRate, Date accountOpenedOn
+	)
+	{
+		this( balance, interestRate );
+		setOpeningDate( accountOpenedOn );
+		setAccountNumber( MeritBank.getNextAccountNumber() );
+	}
+
 	public void setInterestRate(
 			double interestRate
 	)
@@ -79,64 +132,6 @@ public abstract class BankAccount
 	)
 	{
 		transactionStrings.add( s );
-	}
-
-	public BankAccount()
-	{
-
-	}
-
-	public BankAccount(
-			long accountNumber
-	)
-	{
-		this.accountNumber = accountNumber;
-	}
-
-	public BankAccount(
-			double balance
-	)
-	{
-		this.balance = balance;
-		this.accountNumber = MeritBank.getNextAccountNumber();
-	}
-
-	public BankAccount(
-			CDOffering offering, double balance
-	)
-	{
-		this.offering = offering;
-		this.balance = balance;
-		this.accountNumber = MeritBank.getNextAccountNumber();
-	}
-
-	public BankAccount(
-			double balance, double interestRate
-	)
-	{
-		this.balance = balance;
-		this.interestRate = interestRate;
-		this.accountNumber = MeritBank.getNextAccountNumber();
-	}
-
-	public BankAccount(
-			long accountNumber, double balance, double interestRate
-	)
-	{
-		this.accountNumber = accountNumber;
-		this.balance = balance;
-		this.interestRate = interestRate;
-		this.accountNumber = accountNumber;
-	}
-
-	public BankAccount(
-			double balance, double interestRate, Date accountOpenedOn
-	)
-	{
-		this.accountNumber = MeritBank.getNextAccountNumber();
-		this.balance = balance;
-		this.interestRate = interestRate;
-		this.openingDate = accountOpenedOn;
 	}
 
 	public long getAccountNumber()
@@ -191,9 +186,7 @@ public abstract class BankAccount
 			int years
 	)
 	{
-		double futureBalance = MeritBank.recursiveFutureValue( getBalance(), years, getInterestRate() );
-//		double futureBalance = getBalance() * Math.pow( 1 + getInterestRate(), years );
-		return futureBalance;
+		return MeritBank.recursiveFutureValue( getBalance(), years, getInterestRate() );
 	}
 
 	public void addTransaction(
@@ -206,4 +199,4 @@ public abstract class BankAccount
 	{
 		return null;
 	}
-}// class
+}
