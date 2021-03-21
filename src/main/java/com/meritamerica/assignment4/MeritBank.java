@@ -8,17 +8,22 @@ import java.io.PrintWriter;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 
 public class MeritBank
 {
 	public static final double FRAUD_LIMIT = 1000;
 
+	public static HashMap< Long, BankAccount > accounts = new HashMap<>();
+
 	public static long accountNumber = 1;
-	public static AccountHolder[] accountHolders = new AccountHolder[ 1 ];
+	public static AccountHolder[] accountHolders;
 	public static CDOffering[] cdOfferings = new CDOffering[ 0 ];
 	public static CDOffering offering;
 
-	private static ArrayList< String > fraudQueue = new ArrayList<>();
+	private static FraudQueue fraudQ = new FraudQueue();
+
+	private static ArrayList< String > fraudQueueStrings = new ArrayList<>();
 
 	public static double recursivePower(
 			double base,
@@ -61,7 +66,7 @@ public class MeritBank
 
 	public static FraudQueue getFraudQueue()
 	{
-		return null;
+		return fraudQ;
 	}
 
 	public static BankAccount getBankAccount(
@@ -101,22 +106,27 @@ public class MeritBank
 
 //Read Account Holders
 			int numOfAccountHolders = Integer.parseInt( rd.readLine() );
+			AccountHolder ah;
 			while( numOfAccountHolders > 0 )
 			{
-				AccountHolder ac = AccountHolder.readFromString( rd.readLine() );
-				addAccountHolder( ac );
-				readCheckingAccounts( rd, ac );
-				readSavingsAccounts( rd, ac );
-				readCDAccounts( rd, ac );
+				ah = AccountHolder.readFromString( rd.readLine() );
+				addAccountHolder( ah );
+				readCheckingAccounts( rd, ah );
+				readSavingsAccounts( rd, ah );
+				readCDAccounts( rd, ah );
 				numOfAccountHolders-- ;
 			} // Read Account Holders
 
 			// Fraud:
 			byte ts = Byte.parseByte( rd.readLine() );
 			for( byte b = 0; b < ts; b++ )
-				fraudQueue.add( rd.readLine() );
+				fraudQueueStrings.add( rd.readLine() );
 
 			rd.close();
+
+//			for( AccountHolder ah0: accountHolders )
+//				for( CheckingAccount ca: ah0.getCheckingAccounts() )
+//					ca.process();
 
 			sortAccountHolders();
 
@@ -184,6 +194,7 @@ public class MeritBank
 		{
 			ca = CheckingAccount.readFromString( rd.readLine() );
 			ac.addCheckingAccount( ca );
+			accounts.put( ca.getAccountNumber(), ca );
 			// read checking account transactions:
 			transactionCount = Integer.parseInt( rd.readLine() );
 			for( int t = 0; t < transactionCount; t++ )

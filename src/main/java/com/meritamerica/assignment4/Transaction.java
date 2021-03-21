@@ -4,13 +4,27 @@ import java.util.Date;
 
 public abstract class Transaction
 {
-	private static Date date;
+	private Date date;
 
-	private static BankAccount targetAccount;
+	private BankAccount targetAccount;
 
-	private static BankAccount sourceAccount;
+	private BankAccount sourceAccount;
 
-	private static double amount;
+	private double amount;
+
+	private long accountNumberSource;
+
+	public long getAccountNumberSource()
+	{
+		return accountNumberSource;
+	}
+
+	public void setAccountNumberSource(
+			long accountNumberSource
+	)
+	{
+		this.accountNumberSource = accountNumberSource;
+	}
 
 	public BankAccount getSourceAccount()
 	{
@@ -21,7 +35,7 @@ public abstract class Transaction
 			BankAccount sourceAccount
 	)
 	{
-		Transaction.sourceAccount = sourceAccount;
+		this.sourceAccount = sourceAccount;
 	}
 
 	public BankAccount getTargetAccount()
@@ -33,7 +47,7 @@ public abstract class Transaction
 			BankAccount targetAccount
 	)
 	{
-		Transaction.targetAccount = targetAccount;
+		this.targetAccount = targetAccount;
 	}
 
 	public double getAmount()
@@ -45,7 +59,7 @@ public abstract class Transaction
 			double amount
 	)
 	{
-		Transaction.amount = amount;
+		this.amount = amount;
 	}
 
 	public Date getTransactionDate()
@@ -57,7 +71,7 @@ public abstract class Transaction
 			Date date
 	)
 	{
-		Transaction.date = date;
+		this.date = date;
 	}
 
 	public String writeToString()
@@ -71,22 +85,9 @@ public abstract class Transaction
 	{
 //		String[] s = transactionDataString.split( "," );
 //	
-//		long sourceAccountAccNum = Long.parseLong( s[ 0 ] );
-//		sourceAccount = MeritBank.getBankAccount(sourceAccountAccNum);
-//		
-//		long targetAccountAccNum = Long.parseLong( s[ 1 ] );
-//		targetAccount = MeritBank.getBankAccount(targetAccountAccNum);
-//		amount = Double.parseDouble( s[ 2 ] );
-//		
-//		try {
+//		Transaction t = new Transaction();
 //			DateFormat df = new SimpleDateFormat( "dd/MM/yyyy" );
 //			date = df.parse( s[ 3 ] );
-//		}
-//		catch( ParseException e )
-//		{
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
 //
 //		if( sourceAccountAccNum < 0 )
 //		{
@@ -112,6 +113,13 @@ public abstract class Transaction
 //			t.setTransactionDate(date);
 //			
 //		}
+//		
+//		long sourceAccountAccNum = Long.parseLong( s[ 0 ] );
+//		sourceAccount = MeritBank.getBankAccount(sourceAccountAccNum);
+//		
+//		long targetAccountAccNum = Long.parseLong( s[ 1 ] );
+//		targetAccount = MeritBank.getBankAccount(targetAccountAccNum);
+//		amount = Double.parseDouble( s[ 2 ] );
 //		
 //		
 		return null;

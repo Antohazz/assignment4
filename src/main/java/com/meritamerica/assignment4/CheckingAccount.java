@@ -7,7 +7,6 @@ import java.util.Date;
 
 public class CheckingAccount extends BankAccount
 {
-	// Sets opening balance
 	CheckingAccount(
 			double openingBalance
 	)
@@ -32,39 +31,42 @@ public class CheckingAccount extends BankAccount
 
 	public double getInterestRate()
 	{
-		return this.getInterestRate();
+		return super.getInterestRate();
 	}
 
 	public static CheckingAccount readFromString(
 			String accountData
-	) throws ParseException
+	)
 	{
+		String[] s = accountData.split( "," );
 
-		try
-		{
-			int firstCh = 0;
-			int lastCh = accountData.indexOf( "," );
-			long accNum = Integer.parseInt( accountData.substring( firstCh, lastCh ) );
+		if( s.length < 4 )
+			throw new NumberFormatException();
+		else
+		{// 1st column: account number:
+			long accNum = Long.parseLong( s[ 0 ] );
 
-			firstCh = lastCh + 1;
-			lastCh = accountData.indexOf( ",", firstCh );
-			double balance = Double.parseDouble( accountData.substring( firstCh, lastCh ) );
+			// 2nd column: balance
+			double balance = Double.parseDouble( s[ 1 ] );
 
-			firstCh = lastCh + 1;
-			lastCh = accountData.indexOf( ",", firstCh );
-			double iRate = Double.parseDouble( accountData.substring( firstCh, lastCh ) );
+			// 3rd column: interest rate:
+			double iRate = Double.parseDouble( s[ 2 ] );
 
-			firstCh = lastCh + 1;
+			// 4th column: opening date:
 			DateFormat df = new SimpleDateFormat( "dd/MM/yyyy" );
-			Date openDate = df.parse( accountData.substring( firstCh ) );
+			Date openDate = null;
+			try
+			{
+				openDate = df.parse( s[ 3 ] );
+			}
+			catch( ParseException e )
+			{
+				e.printStackTrace();
+			}
 
 			CheckingAccount checkingAccount = new CheckingAccount( accNum, balance, iRate, openDate );
 
 			return checkingAccount;
-		}
-		catch( Exception e )
-		{
-			throw new NumberFormatException();
 		}
 	}
 
@@ -75,5 +77,50 @@ public class CheckingAccount extends BankAccount
 		String checkAccInfo = getAccountNumber() + "," + getBalance() + "," + String.format( "%.4f", getInterestRate() ) + ","
 				+ df.format( this.getOpeningDate() );
 		return checkAccInfo;
+	}
+
+	@Override public void process() throws NegativeAmountException, ExceedsAvailableBalanceException, ExceedsFraudSuspicionLimitException
+	{
+		for( String s: this.getTransactionStrings() )
+			createTransactionFromString( s );
+
+		for( Transaction t: this.getTransactions() )
+		{
+			if( t.getAmount() > MeritBank.FRAUD_LIMIT )
+				throw new ExceedsFraudSuspicionLimitException();
+		}
+	}
+
+	public void createTransactionFromString(
+			String transactionString
+	)
+	{
+		String[] sArray = transactionString.split( "," );
+
+		// 1st column: Source account number:
+		this.setAccountNumberSource( Long.parseLong( sArray[ 0 ] ) );
+		if( this.getAccountNumberSource() < 0 )
+			this.setSourceAccount( this );
+
+		// 2nd column: Target account number:
+		this.setAccountNumberSource( Long.parseLong( sArray[ 1 ] ) );
+		this.setTargetAccount( MeritBank.accounts.get( this.getAccountNumber() ) );
+
+		// 3rd column: Amount:
+		this.setAmount( Double.parseDouble( sArray[ 2 ] ) );
+
+		// 4th column: Date
+		DateFormat df = new SimpleDateFormat( "dd/MM/yyyy" );
+		try
+		{
+			this.setTransactionDate( df.parse( sArray[ 3 ] ) );
+		}
+		catch( ParseException e )
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		addTransaction( this );
 	}
 }

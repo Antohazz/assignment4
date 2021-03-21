@@ -15,7 +15,7 @@ import java.util.List;
 //a. public void addTransaction(Transaction transaction)
 //b. public List<Transaction> getTransactions()
 
-public abstract class BankAccount
+public abstract class BankAccount extends Transaction
 {
 	private double interestRate;
 
@@ -29,9 +29,10 @@ public abstract class BankAccount
 
 	private ArrayList< String > transactionStrings = new ArrayList<>();
 
+	private ArrayList< Transaction > transactions = new ArrayList<>();
+
 	public BankAccount()
 	{
-		setAccountNumber( MeritBank.getNextAccountNumber() );
 	}
 
 	public BankAccount(
@@ -46,7 +47,6 @@ public abstract class BankAccount
 	)
 	{
 		setBalance( balance );
-		setAccountNumber( MeritBank.getNextAccountNumber() );
 	}
 
 	public BankAccount(
@@ -79,7 +79,6 @@ public abstract class BankAccount
 	{
 		this( balance, interestRate );
 		setOpeningDate( accountOpenedOn );
-		setAccountNumber( MeritBank.getNextAccountNumber() );
 	}
 
 	public void setInterestRate(
@@ -153,6 +152,8 @@ public abstract class BankAccount
 			double amount
 	)
 	{
+		//new WithdrawTransaction( this, amount );
+		
 		double balanceAfterWithdrawal = balance - amount;
 		if( amount > 0 && balanceAfterWithdrawal > 0 )
 		{
@@ -193,10 +194,16 @@ public abstract class BankAccount
 			Transaction transaction
 	)
 	{
+		transactions.add( transaction );
 	}
 
 	public List< Transaction > getTransactions()
 	{
-		return null;
+		return transactions;
+	}
+
+	public ArrayList< String > getTransactionStrings()
+	{
+		return transactionStrings;
 	}
 }

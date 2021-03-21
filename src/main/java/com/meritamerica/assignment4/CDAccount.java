@@ -1,6 +1,7 @@
 package com.meritamerica.assignment4;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -23,7 +24,7 @@ public class CDAccount extends BankAccount
 
 	public CDAccount(
 			long accNum, double balance, CDOffering offering, Date date
-	) throws ExceedsFraudSuspicionLimitException
+	)
 	{
 		this.setOffering( offering );
 		this.setBalance( balance );
@@ -31,7 +32,10 @@ public class CDAccount extends BankAccount
 		this.setAccountNumber( accNum );
 		this.setOpeningDate( date );
 		if( balance > MeritBank.FRAUD_LIMIT )
-			throw new ExceedsFraudSuspicionLimitException();
+		{
+			MeritBank.getFraudQueue().addTransaction( this );
+			// throw new ExceedsFraudSuspicionLimitException();
+		}
 	}
 
 	public void setTerm(
@@ -79,41 +83,45 @@ public class CDAccount extends BankAccount
 
 	public static CDAccount readFromString(
 			String accountData
-	) throws NumberFormatException
+	)
 	{
+		int firstCh = 0;
+		int lastCh = accountData.indexOf( "," );
+		long accNum = Integer.parseInt( accountData.substring( firstCh, lastCh ) );
+
+		firstCh = lastCh + 1;
+		lastCh = accountData.indexOf( ",", firstCh );
+		double balance = Double.parseDouble( accountData.substring( firstCh, lastCh ) );
+
+		firstCh = lastCh + 1;
+		lastCh = accountData.indexOf( ",", firstCh );
+		double iRate = Double.parseDouble( accountData.substring( firstCh, lastCh ) );
+
+		firstCh = lastCh + 1;
+		lastCh = accountData.indexOf( ",", firstCh );
+		DateFormat df = new SimpleDateFormat( "dd/MM/yyyy" );
+		Date openDate = null;
 		try
 		{
-			int firstCh = 0;
-			int lastCh = accountData.indexOf( "," );
-			long accNum = Integer.parseInt( accountData.substring( firstCh, lastCh ) );
-
-			firstCh = lastCh + 1;
-			lastCh = accountData.indexOf( ",", firstCh );
-			double balance = Double.parseDouble( accountData.substring( firstCh, lastCh ) );
-
-			firstCh = lastCh + 1;
-			lastCh = accountData.indexOf( ",", firstCh );
-			double iRate = Double.parseDouble( accountData.substring( firstCh, lastCh ) );
-
-			firstCh = lastCh + 1;
-			lastCh = accountData.indexOf( ",", firstCh );
-			DateFormat df = new SimpleDateFormat( "dd/MM/yyyy" );
-			Date openDate = df.parse( accountData.substring( firstCh, lastCh ) );
-
-			firstCh = lastCh + 1;
-			byte term = Byte.parseByte( accountData.substring( firstCh ) );
-
-			// CDOffering of = new CDOffering( term, iRate );
-
-			// CDAccount cdAccount = new CDAccount( accNum, balance, new CDOffering( term,
-			// iRate ), openDate );
-
-			return new CDAccount( accNum, balance, new CDOffering( term, iRate ), openDate );
+			openDate = df.parse( accountData.substring( firstCh, lastCh ) );
 		}
-		catch( Exception e )
+		catch( ParseException e1 )
 		{
-			throw new NumberFormatException();
+			e1.printStackTrace();
 		}
+
+		firstCh = lastCh + 1;
+		byte term = Byte.parseByte( accountData.substring( firstCh ) );
+
+		// CDOffering of = new CDOffering( term, iRate );
+
+//		CDAccount cdAccount = new CDAccount( accNum, balance, new CDOffering( term,
+		// iRate ), openDate );
+
+		CDAccount cdAccount = null;
+		cdAccount = new CDAccount( accNum, balance, new CDOffering( term, iRate ), openDate );
+
+		return cdAccount;
 	}
 
 	public double futureValue()
@@ -129,5 +137,11 @@ public class CDAccount extends BankAccount
 				+ getTerm();
 
 		return cdAccInfo;
+	}
+
+	@Override public void process() throws NegativeAmountException, ExceedsAvailableBalanceException, ExceedsFraudSuspicionLimitException
+	{
+		// TODO Auto-generated method stub
+
 	}
 }

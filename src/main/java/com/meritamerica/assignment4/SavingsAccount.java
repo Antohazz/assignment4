@@ -32,12 +32,12 @@ public class SavingsAccount extends BankAccount
 	// Interest getter
 	public double getInterestRate()
 	{
-		return this.getInterestRate();
+		return super.getInterestRate();
 	}
 
 	public static SavingsAccount readFromString(
 			String accountData
-	) throws ParseException
+	)
 	{
 		try
 		{
@@ -73,5 +73,11 @@ public class SavingsAccount extends BankAccount
 		DateFormat df = new SimpleDateFormat( "dd/MM/yyyy" );
 		String saveAccInfo = getAccountNumber() + "," + getBalance() + "," + getInterestRate() + "," + df.format( this.getOpeningDate() );
 		return saveAccInfo;
+	}
+
+	@Override public void process() throws NegativeAmountException, ExceedsAvailableBalanceException, ExceedsFraudSuspicionLimitException
+	{
+		// TODO Auto-generated method stub
+		
 	}
 }
