@@ -12,6 +12,7 @@ public class SavingsAccount extends BankAccount
 	)
 	{
 		this.setBalance( openingBalance );
+		this.setInterestRate( 1.0 / 100 );
 	}
 
 	SavingsAccount(
@@ -78,6 +79,6 @@ public class SavingsAccount extends BankAccount
 	@Override public void process() throws NegativeAmountException, ExceedsAvailableBalanceException, ExceedsFraudSuspicionLimitException
 	{
 		// TODO Auto-generated method stub
-		
+
 	}
 }

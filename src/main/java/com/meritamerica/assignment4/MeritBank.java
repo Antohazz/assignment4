@@ -61,7 +61,8 @@ public class MeritBank
 			Transaction transaction
 	) throws NegativeAmountException, ExceedsAvailableBalanceException, ExceedsFraudSuspicionLimitException
 	{
-		return false;
+		transaction.process();
+		return true;
 	}
 
 	public static FraudQueue getFraudQueue()

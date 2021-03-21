@@ -17,11 +17,30 @@ public class CDOffering
 			String cdOfferingDataString
 	)
 	{
-		int firstCh = 0;
-		int lastCh = cdOfferingDataString.indexOf( "," );
-		byte term = Byte.parseByte( cdOfferingDataString.substring( firstCh, lastCh ) );
-		firstCh = lastCh + 1;
-		double interestRate = Double.parseDouble( cdOfferingDataString.substring( firstCh ) );
+		String[] sArray = cdOfferingDataString.split( "," );
+		if( sArray.length < 2 )
+			throw new NumberFormatException();
+
+		byte term;
+		try
+		{
+			term = Byte.parseByte( sArray[ 0 ] );
+		}
+		catch( NumberFormatException e )
+		{
+			throw e;
+		}
+
+		double interestRate;
+		try
+		{
+			interestRate = Double.parseDouble( sArray[ 1 ] );
+		}
+		catch( NumberFormatException e )
+		{
+			throw e;
+		}
+
 		CDOffering offering = new CDOffering( term, interestRate );
 		return offering;
 	}
