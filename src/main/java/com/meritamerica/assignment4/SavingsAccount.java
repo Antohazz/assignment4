@@ -13,6 +13,7 @@ public class SavingsAccount extends BankAccount
 	{
 		this.setBalance( openingBalance );
 		this.setInterestRate( 1.0 / 100 );
+		this.addTransaction( new DepositTransaction( this, openingBalance ) );
 	}
 
 	SavingsAccount(
@@ -21,8 +22,9 @@ public class SavingsAccount extends BankAccount
 	{
 		this.setInterestRate( interestRate );
 		this.setOpeningDate( openDate );
-		this.setBalance( balance );
+		 this.setBalance( balance );
 		this.setAccountNumber( accNum );
+		this.addTransaction( new DepositTransaction( this, balance ) );
 	}
 
 	public Date getOpenedOn()

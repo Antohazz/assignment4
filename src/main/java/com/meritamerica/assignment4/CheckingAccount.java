@@ -12,6 +12,9 @@ public class CheckingAccount extends BankAccount
 	)
 	{
 		this.setBalance( openingBalance );
+		// this.setAmount( openingBalance );
+//		DepositTransaction t = new DepositTransaction( this, openingBalance );
+		this.addTransaction( new DepositTransaction( this, openingBalance ) );
 	}
 
 	CheckingAccount(
@@ -22,6 +25,7 @@ public class CheckingAccount extends BankAccount
 		this.setOpeningDate( openDate );
 		this.setBalance( balance );
 		this.setAccountNumber( accNum );
+		this.addTransaction( new DepositTransaction( this, balance ) );
 	}
 
 	public Date getOpenedOn()

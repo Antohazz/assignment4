@@ -54,7 +54,7 @@ public class AccountHolder implements Comparable< AccountHolder >
 	private CheckingAccount[] checkArray = new CheckingAccount[ 1 ];
 	private SavingsAccount[] saveArray = new SavingsAccount[ 1 ];
 	private CDAccount[] cdArray = new CDAccount[ 1 ];
-	private final int MAXV = 250000;
+//	private final int MAXV = 250000;
 
 	// Constructors
 
@@ -135,9 +135,11 @@ public class AccountHolder implements Comparable< AccountHolder >
 			AccountHolder otherAccountHolder
 	)
 	{
+		double ah1, ah2;
+		ah1 = this.getCombinedBalance();
+		ah2 = otherAccountHolder.getCombinedBalance();
 
-		return Double.compare( this.getCombinedBalance(), otherAccountHolder.getCombinedBalance() );
-
+		return Double.compare( ah1, ah2 );
 	}
 
 	// Account GETTERS and SETTERS
@@ -200,22 +202,21 @@ public class AccountHolder implements Comparable< AccountHolder >
 
 	protected CheckingAccount addCheckingAccount(
 			double openingBalance
-	)
+	) throws ExceedsCombinedBalanceLimitException
 	{
-
 		CheckingAccount checkingAccount = new CheckingAccount( openingBalance );
 
 		return addCheckingAccount( checkingAccount );
-
 	}
 
 	protected CheckingAccount addCheckingAccount(
 			CheckingAccount checkingAccount
-	)
+	) throws ExceedsCombinedBalanceLimitException
 	{
-		if( getCheckingBalance() + getSavingsBalance() + checkingAccount.getBalance() < MAXV )
+		if( getCombinedBalance() + checkingAccount.getBalance() > MeritBank.COMBINED_BALANCE_MAX )
+			throw new ExceedsCombinedBalanceLimitException();
+		else
 		{
-
 			for( int i = 0; i < checkArray.length; i++ )
 			{
 				if( checkArray[ i ] == null )
@@ -230,16 +231,16 @@ public class AccountHolder implements Comparable< AccountHolder >
 						{
 							temp[ j ] = checkArray[ j ];
 						}
+
 						checkArray = temp;
 					}
 
 					break;
 				}
 			}
+
 			return checkingAccount;
 		}
-		else
-			return null;
 	}
 
 	protected CheckingAccount[] getCheckingAccounts()
@@ -267,27 +268,28 @@ public class AccountHolder implements Comparable< AccountHolder >
 			else
 				break;
 		}
+
 		return chBalance;
+
 	}
 
 	protected SavingsAccount addSavingsAccount(
 			double openingBalance
-	)
-	{
+	) throws ExceedsCombinedBalanceLimitException
 
+	{
 		SavingsAccount savingsAccount = new SavingsAccount( openingBalance );
 
 		return addSavingsAccount( savingsAccount );
-
 	}
 
 	protected SavingsAccount addSavingsAccount(
 			SavingsAccount savingsAccount
-	)
-	{
-		if( getCheckingBalance() + getSavingsBalance() + savingsAccount.getBalance() < MAXV )
-		{
+	) throws ExceedsCombinedBalanceLimitException
 
+	{
+		if( getCombinedBalance() + savingsAccount.getBalance() < MeritBank.COMBINED_BALANCE_MAX )
+		{
 			for( int i = 0; i < saveArray.length; i++ )
 			{
 				if( saveArray[ i ] == null )
@@ -327,7 +329,7 @@ public class AccountHolder implements Comparable< AccountHolder >
 		{
 			i++ ;
 		}
-		
+
 		return i;
 	}
 
@@ -356,7 +358,6 @@ public class AccountHolder implements Comparable< AccountHolder >
 			CDAccount cdAccount
 	)
 	{
-
 		for( int i = 0; i < cdArray.length; i++ )
 		{
 			if( cdArray[ i ] == null )

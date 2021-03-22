@@ -18,6 +18,7 @@ public class CDAccount extends BankAccount
 		this.setBalance( balance );
 		this.setTerm( offering.getTerm() );
 		this.setAccountNumber( MeritBank.getNextAccountNumber() );
+		this.addTransaction( new DepositTransaction( this, balance ) );
 		if( balance > MeritBank.FRAUD_LIMIT )
 			throw new ExceedsFraudSuspicionLimitException( this );
 	}
@@ -31,11 +32,9 @@ public class CDAccount extends BankAccount
 		this.setTerm( offering.getTerm() );
 		this.setAccountNumber( accNum );
 		this.setOpeningDate( date );
+		this.addTransaction( new DepositTransaction( this, balance ) );
 		if( balance > MeritBank.FRAUD_LIMIT )
-		{
 			MeritBank.getFraudQueue().addTransaction( this );
-			// throw new ExceedsFraudSuspicionLimitException();
-		}
 	}
 
 	public void setTerm(

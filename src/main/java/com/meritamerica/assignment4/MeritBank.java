@@ -14,6 +14,8 @@ public class MeritBank
 {
 	public static final double FRAUD_LIMIT = 1000;
 
+	public static final double COMBINED_BALANCE_MAX = 250000;
+
 	public static HashMap< Long, BankAccount > accounts = new HashMap<>();
 
 	public static long accountNumber = 1;
@@ -71,9 +73,12 @@ public class MeritBank
 	}
 
 	public static BankAccount getBankAccount(
-			long accountId
+			long accountID
 	) // i. Return null if account not found
 	{
+		if( accounts.containsKey( accountID ) )
+			return accounts.get( accountID );
+
 		return null;
 	}
 
@@ -173,7 +178,16 @@ public class MeritBank
 		while( numOfSaveAcc > 0 )
 		{
 			sa = SavingsAccount.readFromString( rd.readLine() );
-			ac.addSavingsAccount( sa );
+			try
+			{
+				ac.addSavingsAccount( sa );
+			}
+			catch( ExceedsCombinedBalanceLimitException e )
+			{
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
 			// savings transactions:
 			transactionCount = Integer.parseInt( rd.readLine() );
 			for( int t = 0; t < transactionCount; t++ )
@@ -194,7 +208,16 @@ public class MeritBank
 		while( numOfCheckAcc > 0 )
 		{
 			ca = CheckingAccount.readFromString( rd.readLine() );
-			ac.addCheckingAccount( ca );
+			try
+			{
+				ac.addCheckingAccount( ca );
+			}
+			catch( ExceedsCombinedBalanceLimitException e )
+			{
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
 			accounts.put( ca.getAccountNumber(), ca );
 			// read checking account transactions:
 			transactionCount = Integer.parseInt( rd.readLine() );
