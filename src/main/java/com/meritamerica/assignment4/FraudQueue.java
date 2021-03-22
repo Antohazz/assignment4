@@ -19,6 +19,10 @@ public class FraudQueue
 
 	public Transaction getTransaction()
 	{
-		return (Transaction)this.q.iterator();
+		for( Transaction t: q )
+			if( !t.isProcessedByFraudTeam() )
+				return t;
+
+		return null;
 	}
 }

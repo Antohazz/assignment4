@@ -228,9 +228,7 @@ public class AccountHolder implements Comparable< AccountHolder >
 					{
 						CheckingAccount[] temp = new CheckingAccount[ checkArray.length * 2 ];
 						for( int j = 0; j < checkArray.length; j++ )
-						{
 							temp[ j ] = checkArray[ j ];
-						}
 
 						checkArray = temp;
 					}

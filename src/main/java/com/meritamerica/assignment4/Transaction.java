@@ -14,6 +14,20 @@ public abstract class Transaction
 
 	private long accountNumberSource;
 
+	private boolean processed;
+
+	public boolean isProcessedByFraudTeam()
+	{
+		return this.processed;
+	}
+
+	public void setProcessed(
+			boolean processed
+	)
+	{
+		this.processed = processed;
+	}
+
 	public long getAccountNumberSource()
 	{
 		return accountNumberSource;
@@ -87,11 +101,6 @@ public abstract class Transaction
 	}
 
 	public abstract void process() throws NegativeAmountException, ExceedsAvailableBalanceException, ExceedsFraudSuspicionLimitException;
-
-	public boolean isProcessedByFraudTeam()
-	{
-		return false;
-	}
 
 	public void setProcessedByFraudTeam(
 			boolean isProcessed
