@@ -85,10 +85,8 @@ public class CheckingAccount extends BankAccount
 			createTransactionFromString( s );
 
 		for( Transaction t: this.getTransactions() )
-		{
 			if( t.getAmount() > MeritBank.FRAUD_LIMIT )
-				throw new ExceedsFraudSuspicionLimitException();
-		}
+				throw new ExceedsFraudSuspicionLimitException( t );
 	}
 
 	public void createTransactionFromString(

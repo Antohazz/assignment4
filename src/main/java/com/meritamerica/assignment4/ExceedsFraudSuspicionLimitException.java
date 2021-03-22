@@ -2,9 +2,11 @@ package com.meritamerica.assignment4;
 
 public class ExceedsFraudSuspicionLimitException extends Exception
 {
-	ExceedsFraudSuspicionLimitException()
+	ExceedsFraudSuspicionLimitException(
+			Transaction t
+	)
 	{
-		System.out.println( "ExceedsFraudSuspicionLimitException" );
+		MeritBank.getFraudQueue().addTransaction( t );
 	}
 
 	private static final long serialVersionUID = 1L;

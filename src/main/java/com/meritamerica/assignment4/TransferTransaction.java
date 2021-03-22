@@ -14,7 +14,6 @@ public class TransferTransaction extends Transaction
 	@Override public void process() throws NegativeAmountException, ExceedsAvailableBalanceException, ExceedsFraudSuspicionLimitException
 	{
 		double amount = this.getAmount();
-
 		this.getSourceAccount().withdraw( amount );
 		this.getTargetAccount().deposit( amount );
 	}

@@ -17,7 +17,7 @@ public class WithdrawTransaction extends Transaction
 		BankAccount target = this.getTargetAccount();
 
 		if( amount > 1000 )
-			throw new ExceedsFraudSuspicionLimitException();
+			throw new ExceedsFraudSuspicionLimitException( this );
 
 		if( amount < 0 )
 			throw new NegativeAmountException();

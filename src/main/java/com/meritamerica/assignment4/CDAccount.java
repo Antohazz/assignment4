@@ -19,7 +19,7 @@ public class CDAccount extends BankAccount
 		this.setTerm( offering.getTerm() );
 		this.setAccountNumber( MeritBank.getNextAccountNumber() );
 		if( balance > MeritBank.FRAUD_LIMIT )
-			throw new ExceedsFraudSuspicionLimitException();
+			throw new ExceedsFraudSuspicionLimitException( this );
 	}
 
 	public CDAccount(

@@ -83,45 +83,6 @@ public abstract class Transaction
 			String transactionDataString
 	)
 	{
-//		String[] s = transactionDataString.split( "," );
-//	
-//		Transaction t = new Transaction();
-//			DateFormat df = new SimpleDateFormat( "dd/MM/yyyy" );
-//			date = df.parse( s[ 3 ] );
-//
-//		if( sourceAccountAccNum < 0 )
-//		{
-//			//		-1,10,5000,01/01/2020
-//			if( amount < 0 )
-//			{
-////				for (int i = 0; i < this.)
-//				WithdrawTransaction t = new WithdrawTransaction(targetAccount, amount);
-//				t.setTransactionDate(date);
-//			}
-//			else
-//			{
-//				DepositTransaction t = new DepositTransaction(targetAccount, amount);
-//				t.setTransactionDate(date);
-//			}
-//		}
-//		
-//		else if( sourceAccountAccNum > 0 )
-//		{
-////			from 2, to 4,5000,01/05/2020
-//					
-//			TransferTransaction t = new TransferTransaction(sourceAccount, targetAccount, amount);
-//			t.setTransactionDate(date);
-//			
-//		}
-//		
-//		long sourceAccountAccNum = Long.parseLong( s[ 0 ] );
-//		sourceAccount = MeritBank.getBankAccount(sourceAccountAccNum);
-//		
-//		long targetAccountAccNum = Long.parseLong( s[ 1 ] );
-//		targetAccount = MeritBank.getBankAccount(targetAccountAccNum);
-//		amount = Double.parseDouble( s[ 2 ] );
-//		
-//		
 		return null;
 	}
 
